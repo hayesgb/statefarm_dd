@@ -36,7 +36,7 @@ def get_images(directory, width=224, height=224, channels=3, driver_imgs_list=''
                 count += 1                                                  # Advance index counter
             print('Shape of X is:  ', X.shape)
             print('Transposing X...')
-            X = np.transpose(X, (2,0,1))
+            X = np.transpose(X, (0,3,1,2))
         else:     # If number of channels != 1 or != 3
             print('Could not create dataset and resize training images...')
         return X, labels, subjects
@@ -54,7 +54,7 @@ def get_images(directory, width=224, height=224, channels=3, driver_imgs_list=''
                 count += 1                                                      # Advance the counter
             print('Shape of X is:  ', X.shape)
             print('Transposing X...')
-            X = np.transpose(X, (2,0,1))
+            X = np.transpose(X, (0,3,1,2))
         else:
             print('Could not create dataset and resize testing images...')
         return X, imgLabels
