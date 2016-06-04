@@ -64,7 +64,7 @@ multiclass_logloss = train_model(driver_imgs_list='driver_imgs_list.csv', width=
 # In[ ]:
 
 if __name__=='__main__':
-    get_ipython().system('ipython nbconvert --to python train_model.ipynb')
+    get_ipython().system('jupyter nbconvert --to python train_model.ipynb')
 
 
 # In[ ]:
