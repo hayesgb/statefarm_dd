@@ -61,7 +61,7 @@ def train_model(driver_imgs_list, width=224, height=224, channels=3, nb_epochs=1
 
 
 multiclass_logloss = train_model(driver_imgs_list='driver_imgs_list.csv', width=224, height=224, channels=3, 
-                                 nb_epochs=3)  # Start iterative training, and return
+                                 nb_epochs=10)  # Start iterative training, and return
                                                                                                       # The logloss by img size
 
 
