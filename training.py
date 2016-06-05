@@ -1,7 +1,7 @@
 
 # coding: utf-8
 
-# In[1]:
+# In[ ]:
 
 from sklearn.metrics import log_loss
 import h5py
@@ -16,7 +16,7 @@ from get_images_v2 import get_images
 from read_drivers import create_training_test_lists
 
 
-# In[2]:
+# In[ ]:
 
 def train_model(driver_imgs_list, width=224, height=224, channels=3, nb_epochs=1, 
                 n_folds=3, path='./vgg16_weights.h5'):
@@ -47,7 +47,7 @@ def train_model(driver_imgs_list, width=224, height=224, channels=3, nb_epochs=1
         X_test = X_test.astype(np.float32)
         
         model.fit(X_train, Y_train, validation_data=[X_test, Y_test], shuffle=True, verbose=1,
-                 nb_epoch=nb_epochs, batch_size=32)
+                 nb_epoch=nb_epochs, batch_size=8)
         
         print('Saving model weights for model on fold:  ', i)
         model.save_weights('model_weights_vgg_fold_'+i*'.h5', overwrite=True)
