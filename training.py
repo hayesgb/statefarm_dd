@@ -1,7 +1,7 @@
 
 # coding: utf-8
 
-# In[ ]:
+# In[1]:
 
 from sklearn.metrics import log_loss
 import h5py
@@ -15,7 +15,7 @@ from get_images_v2 import get_images
 from read_drivers import create_training_test_lists
 
 
-# In[ ]:
+# In[2]:
 
 def train_model(driver_imgs_list, width=224, height=224, channels=3, nb_epochs=1, 
                 n_folds=3, path='./vgg16_weights.h5'):
@@ -36,7 +36,7 @@ def train_model(driver_imgs_list, width=224, height=224, channels=3, nb_epochs=1
         trainList_train, trainList_test = trainList[train_index], trainList[test_index]
         label_train, label_test = label[train_index], label[test_index]
         print('Getting X_train and Y_train for fold #:  ', i)
-        X_train, Y_train = get_dask_images(label=label_train, trainList=trainList_train, directory= './imgs/train/',
+        X_train, Y_train = get_images(label=label_train, trainList=trainList_train, directory= './imgs/train/',
                                 width=width, height=height, channels=channels )
         print('Getting X_test and Y_test for fold #:  ', i)        
         X_test, Y_test = get_images(label=label_test, trainList=trainList_test, directory= './imgs/train/',
