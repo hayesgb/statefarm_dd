@@ -42,7 +42,7 @@ def train_model(driver_imgs_list, width=224, height=224, channels=3, nb_epochs=1
         X_test, Y_test = get_images(label=label_test, trainList=trainList_test, directory= './imgs/train/',
                                 width=width, height=height, channels=channels ) 
         model.fit(X_train, Y_train, validation_data=[X_test, Y_test], shuffle=True, verbose=1,
-                 nb_epoch=nb_epochs, batch_size=64)
+                 nb_epoch=nb_epochs, batch_size=32)
         
         print('Saving model weights for model on fold:  ', i)
         model.save_weights('model_weights_vgg_fold_'+i*'.h5', overwrite=True)
