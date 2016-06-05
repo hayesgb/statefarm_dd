@@ -40,10 +40,12 @@ def train_model(driver_imgs_list, width=224, height=224, channels=3, nb_epochs=1
         X_train, Y_train = get_images(label=label_train, trainList=trainList_train, directory= './imgs/train/',
                                 width=width, height=height, channels=channels )
         print('Getting X_test and Y_test for fold #:  ', i)
-        X_train = X_train.astype(np.float32)
-        X_teat = X_test.astype(np.float32)
+
         X_test, Y_test = get_images(label=label_test, trainList=trainList_test, directory= './imgs/train/',
                                 width=width, height=height, channels=channels ) 
+        X_train = X_train.astype(np.float32)
+        X_test = X_test.astype(np.float32)
+        
         model.fit(X_train, Y_train, validation_data=[X_test, Y_test], shuffle=True, verbose=1,
                  nb_epoch=nb_epochs, batch_size=32)
         
