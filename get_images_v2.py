@@ -24,7 +24,7 @@ def get_images(label, trainList, directory, width=224, height=224, channels=3):
     labels = pd.get_dummies(label).as_matrix()  # convert labels to a dummy array and then to a np.array
     d = dict(zip(trainList, label))    # Make a dictionary from the image filenames and their class labels
     if channels == 3:                  # If we're using color images 
-        X1 = create_holding_array(trainList, width = width, height=height, channels=channels)    # Create empty array
+        X = create_holding_array(trainList, width = width, height=height, channels=channels)    # Create empty array
         print('Resizing 3-channel images for training...')
         count = 0                                                       # Set counter for empty array
         for (trainFile, label) in d.items():                            # Read the dictionary
