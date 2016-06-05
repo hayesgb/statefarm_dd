@@ -1,7 +1,7 @@
 
 # coding: utf-8
 
-# In[9]:
+# In[ ]:
 
 import numpy as np
 from scipy import ndimage, misc
@@ -14,9 +14,9 @@ from make_empty_array import create_holding_array, create_dask_array
 from read_validation_files import get_list_of_validation_files
 
 
-# In[10]:
+# In[ ]:
 
-def get_images(directory, width=224, height=224, channels=3, driver_imgs_list=''):
+def get_images(label, directory, width=224, height=224, channels=3, driver_imgs_list=''):
     '''
     Function to build needed arrays for training or validating the neural network.
     If labels are passed, get a list of training image files, their labels
@@ -61,7 +61,7 @@ def get_images(directory, width=224, height=224, channels=3, driver_imgs_list=''
         return X, imgLabels
 
 
-# In[11]:
+# In[ ]:
 
 def get_dask_images(label, trainList, directory, width=224, height=224, channels=3):
     '''
@@ -90,7 +90,7 @@ def get_dask_images(label, trainList, directory, width=224, height=224, channels
     return X, labels
 
 
-# In[12]:
+# In[ ]:
 
 if __name__=='__main__':
     get_ipython().system('ipython nbconvert --to python get_images_v2.ipynb')
