@@ -9,6 +9,7 @@ import pandas as pd
 from keras.optimizers import SGD
 from sklearn import cross_validation
 import boto3
+import numpy as np
 
 from vgg16_model import VGG_16
 from get_images_v2 import get_images
