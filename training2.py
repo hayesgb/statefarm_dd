@@ -28,7 +28,7 @@ def train_model(driver_imgs_list, width=224, height=224, channels=3, nb_epochs=1
     print('Loading model...')
 
     model = VGG_16(width=width, height=height, channels=channels, weights_path=path)
-    sgd = SGD(lr=0.01, decay=1e-6, momentum=0.9, nesterov=True)  
+    sgd = SGD(lr=0.001, decay=1e-6, momentum=0.9, nesterov=True)  
     model.compile(loss='categorical_crossentropy', optimizer=sgd, metrics=['accuracy'])
     
     for i, (train_index, test_index) in enumerate(lkf):
@@ -52,8 +52,12 @@ def train_model(driver_imgs_list, width=224, height=224, channels=3, nb_epochs=1
         print('Saving model weights for model on fold:  ', i)
         model.save_weights('model_weights_vgg_fold_'+i*'.h5', overwrite=True)
 
+    print('Saving final model weights...')
     model.save_weights('model_weights_vgg_trained.h5', overwrite=True)
-
+    print('Getting X and Y for final predictions...')
+    X, Y = get_images(label=label_train, trainList=trainList_train, directory= './imgs/train/',
+                        width=width, height=height, channels=channels )
+    
     y_predicted = model.predict(X)
     multi_logloss = log_loss(y, y_predicted)
     
