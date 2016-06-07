@@ -1,7 +1,7 @@
 
 # coding: utf-8
 
-# In[1]:
+# In[3]:
 
 from keras.models import Sequential
 from keras.layers import Dense, Activation, Dropout
@@ -13,7 +13,7 @@ from scipy import ndimage, misc
 import numpy as np
 
 
-# In[2]:
+# In[4]:
 
 def VGG_16(weights_path=None, channels=3, width=224, height=224):
         
@@ -59,7 +59,8 @@ def VGG_16(weights_path=None, channels=3, width=224, height=224):
     model.add(Dropout(0.5))
     model.add(Dense(4096, activation='relu'))
     model.add(Dropout(0.5))
-    model.add(Dense(1000, activation='softmax'))
+    model.add(Dense(1000, activation='relu'))
+    model.add(Dropout(0.5))
 
     if weights_path:
         model.load_weights(weights_path)
