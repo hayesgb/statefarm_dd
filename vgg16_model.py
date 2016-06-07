@@ -56,9 +56,9 @@ def VGG_16(weights_path=None, channels=3, width=224, height=224):
 
     model.add(Flatten())
     model.add(Dense(4096, activation='relu'))
-    model.add(Dropout(0.5))
+    model.add(Dropout(0.7))
     model.add(Dense(4096, activation='relu'))
-    model.add(Dropout(0.5))
+    model.add(Dropout(0.7))
     model.add(Dense(1000, activation='softmax'))
 
 
