@@ -1,12 +1,12 @@
 
 # coding: utf-8
 
-# In[ ]:
+# In[1]:
 
 from sklearn.metrics import log_loss
 import h5py
 import pandas as pd
-from keras.optimizers import SGD
+from keras.optimizers import SGD, Adagrad
 from sklearn import cross_validation
 import boto3
 import numpy as np
@@ -26,10 +26,12 @@ def train_model(driver_imgs_list, width=224, height=224, channels=3, nb_epochs=1
     lkf = cross_validation.LabelKFold(subjects, n_folds=n_folds)  # Instantiate Label K Fold iterator
 
     print('Loading model...')
+    
 
     model = VGG_16(width=width, height=height, channels=channels, weights_path=path)
-    sgd = SGD(lr=0.001, decay=1e-6, momentum=0.9, nesterov=True)  
-    model.compile(loss='categorical_crossentropy', optimizer=sgd, metrics=['accuracy'])
+    sgd = SGD(lr=0.001, decay=1e-6, momentum=0.9, nesterov=True)
+    ada = Adagrad()
+    model.compile(loss='categorical_crossentropy', optimizer=ada, metrics=['accuracy'])
     
     for i, (train_index, test_index) in enumerate(lkf):
         print('Setting up training and test samples for fold #:  ', i)
