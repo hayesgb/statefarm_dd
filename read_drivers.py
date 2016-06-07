@@ -1,12 +1,13 @@
 
 # coding: utf-8
 
-# In[1]:
+# In[ ]:
 
 import pandas as pd
+from sklearn.preprocessing import LabelEncoder
 
 
-# In[2]:
+# In[ ]:
 
 def create_training_test_lists(driver_imgs_list):
     '''
@@ -17,12 +18,20 @@ def create_training_test_lists(driver_imgs_list):
     training_subjects = driver_imgs.subject
     training_targets = driver_imgs.classname
     training_imgs = driver_imgs.img
+    
+    le = LabelEncoder()
+    integer_subjects = le.fit_transform(training_subjects)
 
-    return training_subjects, training_targets, training_imgs
+    return integer_subjects, training_targets, training_imgs
 
 
-# In[3]:
+# In[ ]:
 
 if __name__=='__main__':
     get_ipython().system('ipython nbconvert --to python read_drivers.ipynb')
+
+
+# In[ ]:
+
+
 
