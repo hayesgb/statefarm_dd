@@ -1,7 +1,7 @@
 
 # coding: utf-8
 
-# In[1]:
+# In[ ]:
 
 from sklearn.metrics import log_loss
 import h5py
@@ -24,6 +24,7 @@ def train_model(driver_imgs_list, width=224, height=224, channels=3, nb_epochs=1
     subjects, label, trainList = create_training_test_lists(driver_imgs_list)
     
     lkf = cross_validation.LabelKFold(subjects, n_folds=n_folds)  # Instantiate Label K Fold iterator
+    lpl = cross_validation.LeavePLabelOut(subjects, p=1)
 
     print('Loading model...')
     
@@ -33,7 +34,7 @@ def train_model(driver_imgs_list, width=224, height=224, channels=3, nb_epochs=1
     ada = Adagrad()
     model.compile(loss='categorical_crossentropy', optimizer=ada, metrics=['accuracy'])
     
-    for i, (train_index, test_index) in enumerate(lkf):
+    for i, (train_index, test_index) in enumerate(lpl):
         print('Setting up training and test samples for fold #:  ', i)
         
         trainList_train, trainList_test = trainList[train_index], trainList[test_index]
