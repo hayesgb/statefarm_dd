@@ -1,7 +1,7 @@
 
 # coding: utf-8
 
-# In[ ]:
+# In[1]:
 
 from sklearn.metrics import log_loss
 import h5py
@@ -10,13 +10,19 @@ from keras.optimizers import SGD, Adagrad
 from sklearn import cross_validation
 import boto3
 import numpy as np
+from keras.preprocessing.image import ImageDataGenerator
 
 from vgg16_model import VGG_16
 from get_images_v2 import get_images
 from read_drivers import create_training_test_lists
 
 
-# In[ ]:
+# In[2]:
+
+data_augmentation=True
+
+
+# In[3]:
 
 def train_model(driver_imgs_list, width=224, height=224, channels=3, nb_epochs=1, 
                 n_folds=3, path='./vgg16_weights.h5'):
@@ -46,12 +52,38 @@ def train_model(driver_imgs_list, width=224, height=224, channels=3, nb_epochs=1
 
         X_test, Y_test = get_images(label=label_test, trainList=trainList_test, directory= './imgs/train/',
                                 width=width, height=height, channels=channels ) 
-        X_train = X_train.astype(np.float32)
-        X_test = X_test.astype(np.float32)
+        X_train = X_train.astype('float32')
+        X_test = X_test.astype('float32')
+        if X_train.max() > 1:
+            print('Dividing X_train by 255...')
+            X_train /= 255
+        if X_test.max() >1:
+            print('Dividing X_test by 255...')
+            X_test /= 255
         
-        model.fit(X_train, Y_train, validation_data=[X_test, Y_test], shuffle=True, verbose=1,
-                 nb_epoch=nb_epochs, batch_size=16)
-        
+        if not data_augmentation:
+            model.fit(X_train, Y_train, validation_data=[X_test, Y_test], shuffle=True, verbose=1,
+                      nb_epoch=nb_epochs, batch_size=16)
+        else:
+            print('Using real-time data augmentation...')
+            datagen = ImageDataGenerator(
+                featurewise_center=True,              # set input mean to 0 over the dataset
+                samplewise_center=False,               # set each sample mean to 0
+                featurewise_std_normalization=True,   # divide inputs by std of the dataset
+                samplewise_std_normalization=False,    # divide each input by its std
+                zca_whitening=False,                   # apply ZCA whitening
+                rotation_range=0, 
+                width_shift_range=0,
+                height_shift_range=0,
+                horizontal_flip=False,
+                vertical_flip=False
+            )
+            
+            datagen.fit(X_train)
+            
+            model.fit_generator(datagen.flow(X_train, Y_train, batch_size=16),
+                               samples_per_epoch=X_train.shape[0],
+                               nb_epoch=nb_epochs, validation_data=(X_test, Y_test))
         print('Saving model weights for model on fold:  ', i)
         model.save_weights('model_weights_vgg_fold_'+i*'.h5', overwrite=True)
 
