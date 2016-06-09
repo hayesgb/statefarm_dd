@@ -1,7 +1,7 @@
 
 # coding: utf-8
 
-# In[1]:
+# In[3]:
 
 from keras.models import Sequential
 from keras.layers import Dense, Activation, Dropout
@@ -13,7 +13,7 @@ from scipy import ndimage, misc
 import numpy as np
 
 
-# In[2]:
+# In[8]:
 
 def VGG_16(weights_path=None, channels=3, width=224, height=224):
         
@@ -56,16 +56,19 @@ def VGG_16(weights_path=None, channels=3, width=224, height=224):
 
     model.add(Flatten())
     model.add(Dense(4096, activation='relu'))
-    model.add(Dropout(0.7))
+    model.add(Dropout(0.5))
     model.add(Dense(4096, activation='relu'))
-    model.add(Dropout(0.7))
+    model.add(Dropout(0.5))
     model.add(Dense(1000, activation='softmax'))
 
 
     if weights_path:
         model.load_weights(weights_path)
         model.layers.pop()
+        model.outputs = [model.layers[-1].output]
+        model.layers[-1].outbound_nodes = []
         model.add(Dense(10, activation='softmax'))
+        print('Shape is:  ', model.output_shape)
         
 
     return model
@@ -81,7 +84,7 @@ if __name__=="__main__":
     im = np.expand_dims(im, axis=0)
     
     # Test pretrained model
-    model = VGG_16('/Users/Greg/Downloads/vgg16_weights.h5')
+    model = VGG_16('./vgg16_weights.h5')
     sgd = SGD(lr=0.1, decay=1e-6, momentum=0.9, nesterov=True)  
     model.compile(loss='categorical_crossentropy', optimizer=sgd, 
                  metrics=['accuracy'])

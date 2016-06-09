@@ -17,12 +17,12 @@ from get_images_v2 import get_images
 from read_drivers import create_training_test_lists
 
 
-# In[2]:
+# In[ ]:
 
 data_augmentation=True
 
 
-# In[3]:
+# In[ ]:
 
 def train_model(driver_imgs_list, width=224, height=224, channels=3, nb_epochs=1, 
                 n_folds=3, path='./vgg16_weights.h5'):
@@ -67,10 +67,10 @@ def train_model(driver_imgs_list, width=224, height=224, channels=3, nb_epochs=1
         else:
             print('Using real-time data augmentation...')
             datagen = ImageDataGenerator(
-                featurewise_center=True,              # set input mean to 0 over the dataset
-                samplewise_center=False,               # set each sample mean to 0
-                featurewise_std_normalization=True,   # divide inputs by std of the dataset
-                samplewise_std_normalization=False,    # divide each input by its std
+                featurewise_center=False,              # set input mean to 0 over the dataset
+                samplewise_center=True,               # set each sample mean to 0
+                featurewise_std_normalization=False,   # divide inputs by std of the dataset
+                samplewise_std_normalization=True,    # divide each input by its std
                 zca_whitening=False,                   # apply ZCA whitening
                 rotation_range=0, 
                 width_shift_range=0,
@@ -100,8 +100,8 @@ def train_model(driver_imgs_list, width=224, height=224, channels=3, nb_epochs=1
 
 
 multiclass_logloss = train_model(driver_imgs_list='driver_imgs_list.csv', width=224, height=224, channels=3, 
-                                 nb_epochs=10)  # Start iterative training, and return
-                                                                                                      # The logloss by img size
+                                 nb_epochs=2)  # Start iterative training, and return
+                                                       # The logloss by img size
 
 
 
