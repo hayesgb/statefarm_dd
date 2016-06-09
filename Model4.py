@@ -1,7 +1,7 @@
 
 # coding: utf-8
 
-# In[ ]:
+# In[3]:
 
 from keras.models import Sequential
 from keras.layers import Dense, Activation, Dropout
@@ -20,18 +20,24 @@ def model4(channels=3, width=224, height=224):
     model = Sequential()
     model.add(Convolution2D(32, 3, 3, border_mode='same', input_shape=(channels, width, height), 
                             activation='relu'))
-    model.add(Convolution2D(32, 3, 3, activation='relu'))
+    model.add(Convolution2D(32, 3, 3, border_mode='same', activation='relu'))
     model.add(MaxPooling2D((2,2)))
     model.add(Dropout(0.5))
 
+    model.add(Convolution2D(64, 3, 3, border_mode='same', activation='relu'))
     model.add(Convolution2D(64, 3, 3, border_mode='same', activation='relu'))
     model.add(MaxPooling2D((2,2)))
     model.add(Dropout(0.5))
 
     model.add(Convolution2D(128, 3, 3, border_mode='same', activation='relu'))
+    model.add(Convolution2D(128, 3, 3, border_mode='same', activation='relu'))
     model.add(MaxPooling2D((2,2), strides=(2,2)))
     model.add(Dropout(0.5))
-
+    
+    model.add(Convolution2D(256, 3, 3, border_mode='same', activation='relu'))
+    model.add(Convolution2D(64, 3, 3, border_mode='same', activation='relu'))    
+    model.add(MaxPooling2D((2,2), strides=(2,2)))
+    
     model.add(Flatten())
     model.add(Dense(4096, activation='relu'))
     model.add(Dropout(0.5))
@@ -44,8 +50,8 @@ def model4(channels=3, width=224, height=224):
 if __name__=="__main__":
     
     get_ipython().system('ipython nbconvert --to script Model4.ipynb')
-#    model = model4()
-#    print('Shape is:  ', model.output_shape)
+    model = model4()
+    print('Shape is:  ', model.output_shape)
 #    print('Weights are:  ', len(model.get_weights()))
 #    print('layer.get_config()')
 
