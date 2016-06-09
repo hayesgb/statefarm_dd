@@ -1,7 +1,7 @@
 
 # coding: utf-8
 
-# In[3]:
+# In[1]:
 
 from keras.models import Sequential
 from keras.layers import Dense, Activation, Dropout
@@ -13,7 +13,7 @@ from scipy import ndimage, misc
 import numpy as np
 
 
-# In[8]:
+# In[2]:
 
 def VGG_16(weights_path=None, channels=3, width=224, height=224):
         
@@ -64,9 +64,11 @@ def VGG_16(weights_path=None, channels=3, width=224, height=224):
 
     if weights_path:
         model.load_weights(weights_path)
+        #model.layers.pop(-)
+        #model.outputs = [model.layers[-1].output]
+        #model.layers[-1].outbound_nodes = []
         model.layers.pop()
-        model.outputs = [model.layers[-1].output]
-        model.layers[-1].outbound_nodes = []
+        model.layers.pop()
         model.add(Dense(10, activation='softmax'))
         print('Shape is:  ', model.output_shape)
         

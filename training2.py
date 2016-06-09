@@ -1,7 +1,7 @@
 
 # coding: utf-8
 
-# In[1]:
+# In[ ]:
 
 from sklearn.metrics import log_loss
 import h5py
@@ -38,7 +38,7 @@ def train_model(driver_imgs_list, width=224, height=224, channels=3, nb_epochs=1
     model = VGG_16(width=width, height=height, channels=channels, weights_path=path)
     sgd = SGD(lr=0.001, decay=1e-6, momentum=0.9, nesterov=True)
     ada = Adagrad()
-    model.compile(loss='categorical_crossentropy', optimizer=ada, metrics=['accuracy'])
+    model.compile(loss='categorical_crossentropy', optimizer=sgd, metrics=['accuracy'])
     
     for i, (train_index, test_index) in enumerate(lpl):
         print('Setting up training and test samples for fold #:  ', i)
