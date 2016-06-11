@@ -12,20 +12,20 @@ import boto3
 import numpy as np
 from keras.preprocessing.image import ImageDataGenerator
 
-from Model4 import model4
+from Model5 import model5
 from get_images_v2 import get_images
 from read_drivers import create_training_test_lists
 
 
-# In[2]:
+# In[ ]:
 
-data_augmentation=True
+data_augmentation=False
 
 
 # In[ ]:
 
 def train_model(driver_imgs_list, width=224, height=224, channels=3, nb_epochs=1, 
-                n_folds=3, path='./vgg16_weights.h5'):
+                n_folds=3, path='./model4_weights_fold_.h5'):
     
     subjects, label, trainList = create_training_test_lists(driver_imgs_list)
     
@@ -35,8 +35,8 @@ def train_model(driver_imgs_list, width=224, height=224, channels=3, nb_epochs=1
     print('Loading model...')
     
 
-    model = model4(width=width, height=height, channels=channels)
-    sgd = SGD(lr=0.01, decay=1e-6, momentum=0.9, nesterov=True)
+    model = model5(weights_path=path, width=width, height=height, channels=channels)
+    sgd = SGD(lr=0.1, decay=1e-6, momentum=0.9, nesterov=True)
     ada = Adagrad()
     model.compile(loss='categorical_crossentropy', optimizer=sgd, metrics=['accuracy'])
     
@@ -100,7 +100,7 @@ def train_model(driver_imgs_list, width=224, height=224, channels=3, nb_epochs=1
 
 
 multiclass_logloss = train_model(driver_imgs_list='driver_imgs_list.csv', width=224, height=224, channels=3, 
-                                 nb_epochs=2)  # Start iterative training, and return
+                                 nb_epochs=20, path=None)  # Start iterative training, and return
                                                        # The logloss by img size
 
 
