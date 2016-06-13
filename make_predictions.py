@@ -80,11 +80,5 @@ s3_client.upload_file('./model_weights_vgg_trained.h5', 'kaggle-competitions',
 
 # In[ ]:
 
-if __name__=='__main__':
-    get_ipython().system('jupyter nbconvert --to python make_predictions.ipynb')
-
-
-# In[ ]:
-
 
 
