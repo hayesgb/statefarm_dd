@@ -13,7 +13,7 @@ from scipy import ndimage, misc
 import numpy as np
 
 
-# In[11]:
+# In[2]:
 
 def VGG_16(weights_path=None, channels=3, width=224, height=224):
         
@@ -68,7 +68,7 @@ def VGG_16(weights_path=None, channels=3, width=224, height=224):
         #model.outputs = [model.layers[-1].output]
         #model.layers[-1].outbound_nodes = []
         model.layers.pop()
-        model.add(Dropout(0.5))
+#        model.add(Dropout(0.5))
         model.add(Dense(10, activation='softmax'))
 #        print('Shape is:  ', model.output_shape)
 #        print('Weights are:  ', len(model.get_weights()))

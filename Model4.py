@@ -1,7 +1,7 @@
 
 # coding: utf-8
 
-# In[3]:
+# In[1]:
 
 from keras.models import Sequential
 from keras.layers import Dense, Activation, Dropout
@@ -13,37 +13,24 @@ from scipy import ndimage, misc
 import numpy as np
 
 
-# In[ ]:
+# In[3]:
 
-def model4(channels=3, width=224, height=224):
+def model4(weights_path=None, channels=3, width=224, height=224):
         
     model = Sequential()
-    model.add(Convolution2D(32, 3, 3, border_mode='same', input_shape=(channels, width, height), 
+    model.add(Convolution2D(8, 2, 2, border_mode='valid', input_shape=(channels, width, height), 
                             activation='relu'))
-    model.add(Convolution2D(32, 3, 3, border_mode='same', activation='relu'))
+    model.add(Convolution2D(8, 2, 2, activation='relu'))
     model.add(MaxPooling2D((2,2)))
-    model.add(Dropout(0.5))
+    model.add(Dropout(0.25))
 
-    model.add(Convolution2D(64, 3, 3, border_mode='same', activation='relu'))
-    model.add(Convolution2D(64, 3, 3, border_mode='same', activation='relu'))
-    model.add(MaxPooling2D((2,2)))
-    model.add(Dropout(0.5))
-
-    model.add(Convolution2D(128, 3, 3, border_mode='same', activation='relu'))
-    model.add(Convolution2D(128, 3, 3, border_mode='same', activation='relu'))
-    model.add(MaxPooling2D((2,2), strides=(2,2)))
-    model.add(Dropout(0.5))
-    
-    model.add(Convolution2D(256, 3, 3, border_mode='same', activation='relu'))
-    model.add(Convolution2D(64, 3, 3, border_mode='same', activation='relu'))    
-    model.add(MaxPooling2D((2,2), strides=(2,2)))
-    
     model.add(Flatten())
-    model.add(Dense(4096, activation='relu'))
-    model.add(Dropout(0.5))
-    model.add(Dense(4096, activation='relu'))
+    model.add(Dense(128, activation='relu'))
     model.add(Dropout(0.5))
     model.add(Dense(10, activation='softmax'))
+
+    if weights_path:
+        model.load_weights(weights_path)
 
     return model
 
@@ -52,6 +39,9 @@ if __name__=="__main__":
     get_ipython().system('ipython nbconvert --to script Model4.ipynb')
     model = model4()
     print('Shape is:  ', model.output_shape)
+    model.load_weights(weights_path='k_fold_iter2_weights_1.h5')
+
+
 #    print('Weights are:  ', len(model.get_weights()))
 #    print('layer.get_config()')
 
